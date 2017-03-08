@@ -12,8 +12,9 @@ public class Trip {
     private int minCap;
     private int maxCap;
     private Company company;
+    private int price;
 
-    public Trip(int ID, String title, Date startDate, Date endDate, String description, int minCap, int maxCap, Company company) {
+    public Trip(int ID, String title, Date startDate, Date endDate, String description, int minCap, int maxCap, Company company, int price) {
         this.ID = ID;
         this.title = title;
         this.startDate = startDate;
@@ -22,6 +23,7 @@ public class Trip {
         this.minCap = minCap;
         this.maxCap = maxCap;
         this.company = company;
+        this.price = price;
     }
 
     public int getID() {
@@ -82,5 +84,13 @@ public class Trip {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
