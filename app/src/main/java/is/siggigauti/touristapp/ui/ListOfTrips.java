@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import is.siggigauti.touristapp.R;
 import is.siggigauti.touristapp.controllers.DBHandler;
+import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.DummyData;
 import is.siggigauti.touristapp.model.Trip;
 
@@ -30,7 +31,13 @@ public class ListOfTrips extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
 
+        DBHandler dbHandler = new DBHandler(this);
 
+        ArrayList<Company> companies = dbHandler.getAllCompanies();
+        for(Company company : companies){
+            String log = "id: "+company.getID()+", Name: "+ company.getName()+", Description: " + company.getDescription();
+            Log.d("from Listoftrips:", log);
+        }
 
         // Setjum gögnin í listann.
         populateListView();
