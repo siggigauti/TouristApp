@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import is.siggigauti.touristapp.R;
+import is.siggigauti.touristapp.controllers.DBHandler;
 import is.siggigauti.touristapp.model.DummyData;
 import is.siggigauti.touristapp.model.Trip;
 
@@ -22,11 +23,14 @@ public class ListOfTrips extends AppCompatActivity {
     //Sækjum arrayLista af User objectum frá DummyData/gagnagrunn
     // Her er því nóg að provida endapunkt sem skilar arrayLista af User/whatever objecti
     ArrayList<Trip> tripsArrayList = DummyData.getTripsArrayList();
+    ArrayList<Trip> tripsArrayList2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
+
+
 
         // Setjum gögnin í listann.
         populateListView();
