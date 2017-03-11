@@ -6,10 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.Date;
+//import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.Trip;
@@ -120,16 +121,16 @@ public class DBHandler extends SQLiteOpenHelper {
             db.close();
         }
 
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<Trip> trips = new ArrayList<Trip>();
-        trips.add(new Trip(1, "Diving", Date.valueOf("2017-05-21"), Date.valueOf("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
-        trips.add(new Trip(2, "Sport Car Driving", Date.valueOf("2017-06-21"), Date.valueOf("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(2), 10000));
-        trips.add(new Trip(3, "Mountain Climbing", Date.valueOf("2017-07-2"), Date.valueOf("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
-        trips.add(new Trip(4, "Horse riding", Date.valueOf("2017-07-4"), Date.valueOf("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(1), 20000));
-        trips.add(new Trip(5, "Diving", Date.valueOf("2017-05-21"), Date.valueOf("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
-        trips.add(new Trip(6, "Sport Car Driving", Date.valueOf("2017-06-21"), Date.valueOf("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(1), 10000));
-        trips.add(new Trip(7, "Mountain Climbing", Date.valueOf("2017-07-2"), Date.valueOf("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
-        trips.add(new Trip(8, "Horse riding", Date.valueOf("2017-07-4"), Date.valueOf("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(2), 20000));
+        trips.add(new Trip(1, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
+        trips.add(new Trip(2, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(2), 10000));
+        trips.add(new Trip(3, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
+        trips.add(new Trip(4, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(1), 20000));
+        trips.add(new Trip(5, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
+        trips.add(new Trip(6, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(1), 10000));
+        trips.add(new Trip(7, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
+        trips.add(new Trip(8, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(2), 20000));
         for(Trip obj : trips){
             ContentValues values = new ContentValues();
             //values.put(TRIP_ID, obj.getID());
@@ -148,9 +149,12 @@ public class DBHandler extends SQLiteOpenHelper {
             db.close();
         }
     }
-    /*
+
     //Test to get all trips
     public ArrayList<Trip> getAllTrips() {
+        //Fyrst þarf að sækja companies.
+        ArrayList<Company> companyList = getAllCompanies();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<Trip> tripList = new ArrayList<Trip>();
         String selectQuery = "SELECT * FROM "+TABLE_TRIPS;
 
@@ -159,14 +163,44 @@ public class DBHandler extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 Trip trip = new Trip(
-                        cursor.getInt(0), cursor.getString(1), Date.valueOf(cursor.getString(2)),
-                        Date.valueOf(cursor.getString(3)), cursor.getString(4), cursor.getInt(5),
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        changeStringToDate(cursor.getString(2)),
+                        changeStringToDate(cursor.getString(3)),
+                        cursor.getString(4),
+                        cursor.getInt(5),
                         cursor.getInt(6),
+                        getCompanyByIdFromList(companyList, cursor.getInt(7)),
+                        cursor.getInt(8)
                 );
 
+                tripList.add(trip);
+            } while(cursor.moveToNext());
+        }
+        return tripList;
+    }
+
+    public Date changeStringToDate(String input){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            return format.parse(input);
+        }catch (Exception ex){
+
+        }
+        return null;
+    }
+
+    private Company getCompanyByIdFromList(ArrayList<Company> companyList, int companyId) {
+        //Fyrir öll companies, tékkum hvort við finnum ekki það company með rétt ID.
+        for(Company company : companyList){
+            if(company.getID()==companyId){
+                return company;
             }
         }
-    }*/
+        //Annars null, ætti ekki að gerast því companyId í TRIP töflu er foreign key.
+        return null;
+    }
+
 
     public ArrayList<Company> getAllCompanies(){
         ArrayList<Company> companyList = new ArrayList<Company>();
@@ -177,7 +211,9 @@ public class DBHandler extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 Company company = new Company(
-                        cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2));
                 companyList.add(company);
             }while(cursor.moveToNext());
         }

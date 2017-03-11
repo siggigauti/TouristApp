@@ -23,8 +23,9 @@ import is.siggigauti.touristapp.model.Trip;
 public class ListOfTrips extends AppCompatActivity {
     //Sækjum arrayLista af User objectum frá DummyData/gagnagrunn
     // Her er því nóg að provida endapunkt sem skilar arrayLista af User/whatever objecti
-    ArrayList<Trip> tripsArrayList = DummyData.getTripsArrayList();
-    ArrayList<Trip> tripsArrayList2;
+    //ArrayList<Trip> tripsArrayList = DummyData.getTripsArrayList();
+    //DBHandler db = new DBHandler(this);
+    ArrayList<Trip> tripsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class ListOfTrips extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_trips);
 
         DBHandler dbHandler = new DBHandler(this);
+        tripsArrayList = dbHandler.getAllTrips();
 
         ArrayList<Company> companies = dbHandler.getAllCompanies();
         for(Company company : companies){
@@ -76,7 +78,7 @@ public class ListOfTrips extends AppCompatActivity {
          // Fillum viewið, tökum út Trip fylki þann sem viljum vinna með og setjum það í hverja röð.
             TextView tripName = (TextView) itemRowView.findViewById(R.id.row_nameOfTrip);
             tripName.setText(currentTrip.getTitle());
-            // StartDate
+            // StartDate: ATH Þarf að formatta þetta betur
             TextView tripStartDate = (TextView) itemRowView.findViewById(R.id.row_startDateOfTrip);
             tripStartDate.setText(currentTrip.getStartDate().toString());
             // EndDate
