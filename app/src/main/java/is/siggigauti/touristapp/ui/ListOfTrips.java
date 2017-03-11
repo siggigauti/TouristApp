@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -43,6 +44,7 @@ public class ListOfTrips extends AppCompatActivity {
 
         // Setjum gögnin í listann.
         populateListView();
+        registerClickCallback();
 
         Button button_tripsList_homeButton = (Button) findViewById(R.id.button_tripsList_homeButton);
         button_tripsList_homeButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +55,52 @@ public class ListOfTrips extends AppCompatActivity {
             }
         });
     }
+    //skynja items á list.
+    private void registerClickCallback(){
+        ListView list = (ListView) findViewById(R.id.trip_list_view);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent,
+                                    View view,
+                                    int position,
+                                    long     id) {
+
+                Trip clickedTrip = tripsArrayList.get(position);
+
+                //String msg = "you clicked on" + position;
+                //Toast.makeText(ListOfTrips.this,msg,Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(ListOfTrips.this, ViewSpecificTrip.class);
+
+                intent.putExtra("NameOfTrip", clickedTrip.getTitle());
+                intent.putExtra("Id", clickedTrip.getID());
+                intent.putExtra("Description", clickedTrip.getDescription());
+                intent.putExtra("Price", clickedTrip.getPrice());
+                intent.putExtra("StartDate", clickedTrip.getStartDate());
+                intent.putExtra("EndDate", clickedTrip.getEndDate());
+                intent.putExtra("MinCap", clickedTrip.getMinCap());
+                intent.putExtra("MaxCap", clickedTrip.getMaxCap());
+
+                startActivity(intent);
+
+                    /*
+                            private final int ID;
+                            private String title;
+                            private Date startDate;
+                            private Date endDate;
+                            private String description;
+                            private int minCap;
+                            private int maxCap;
+                            private Company company;
+                            private int price;
+
+                     */
+
+            }
+        });
+    }
+
 
     private void populateListView(){
         ArrayAdapter<Trip> adapter = new MyListAdapter();

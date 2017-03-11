@@ -15,10 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.HomePage"></activity>
-        <activity android:name=".ui.ListOfTrips"></activity>
-        <activity android:name=".ui.ListOfUsersBookings"></activity>
-        <activity android:name=".ui.ListOfSavedTrips"></activity>
+        <activity android:name=".ui.HomePage" />
+        <activity android:name=".ui.ListOfTrips" />
+        <activity android:name=".ui.ListOfUsersBookings" />
+        <activity android:name=".ui.ListOfSavedTrips" />
+        <activity android:name=".ui.ViewSpecificTrip"></activity>
     </application>
 
 </manifest>
