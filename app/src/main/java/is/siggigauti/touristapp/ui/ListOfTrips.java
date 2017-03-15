@@ -34,6 +34,8 @@ public class ListOfTrips extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
 
+
+
         // Go to filter page
         Button button_goToFilterPage = (Button) findViewById(R.id.button_tripsList_filterButton);
         button_goToFilterPage.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +47,7 @@ public class ListOfTrips extends AppCompatActivity {
         });
 
         DBHandler dbHandler = new DBHandler(this);
+        dbHandler.populate();
         tripsArrayList = dbHandler.getAllTrips();
 
         // Er að athuga hvort ég gæti birt eina ferð eftir ég ýti á GO

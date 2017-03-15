@@ -21,7 +21,8 @@
         <activity android:name=".ui.ListOfSavedTrips" />
         <activity android:name=".ui.ViewSpecificTrip" />
         <activity android:name=".ui.Filter" />
-        <activity android:name=".ui.MySavedTrips"></activity>
+        <activity android:name=".ui.MySavedTrips" />
+        <activity android:name=".ui.SignUp"></activity>
     </application>
 
 </manifest>

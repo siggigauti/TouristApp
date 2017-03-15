@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import java.util.Date;
 
 import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.Trip;
+
+//import java.sql.Date;
 
 /**
  * This is the DB Handler class, in it we have member variables (tilviksbreytur)
@@ -36,9 +37,15 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "touristTrips";
 
+    //variable to hold the db instance
+    public SQLiteDatabase db;
+
     //Table names
     private static final String TABLE_TRIPS = "trips";
     private static final String TABLE_COMPANY = "company";
+    private static final String TABLE_LOGIN = "login";
+    //private static final String TABLE_USER = "user";
+
 
 
     //Columns for TRIPS table.
@@ -60,9 +67,16 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CMPNY_NAME = "name";
     private static final String CMPNY_DESC = "description";
 
+
+    /*columns for USER table
+    private static final String USER_ID = "id";
+    private static final String USER_NAME = "username";
+    private static final String USER_PASSWORD = "password";
+    */
+
     //Constructor
     public DBHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION) ;
     }
 
     @Override
@@ -89,6 +103,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + TRIP_COMPANY + ") REFERENCES " + TABLE_COMPANY + "(" + CMPNY_ID + "))";
         db.execSQL(CREATE_TRIPS_TABLE);
 
+        /*user table
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+                + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + USER_NAME + " TEXT NOT NULL,"
+                + USER_PASSWORD + " TEXT NOT NULL"
+                + ")";
+        db.execSQL(CREATE_USER_TABLE);
+        */
+
+        db.execSQL(LoginDataBase.DATABASE_CREATE);
     }
 
     @Override
@@ -96,6 +120,8 @@ public class DBHandler extends SQLiteOpenHelper {
         //DROP ALL TABLES AND RECREATE WITH CALLING onCreate again
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPANY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
         onCreate(db);
     }
 
@@ -219,4 +245,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return companyList;
     }
+
+
+
 }
