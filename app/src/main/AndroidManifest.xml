@@ -19,7 +19,8 @@
         <activity android:name=".ui.ListOfTrips" />
         <activity android:name=".ui.ListOfUsersBookings" />
         <activity android:name=".ui.ListOfSavedTrips" />
-        <activity android:name=".ui.ViewSpecificTrip"></activity>
+        <activity android:name=".ui.ViewSpecificTrip" />
+        <activity android:name=".ui.MySavedTrips"></activity>
     </application>
 
 </manifest>

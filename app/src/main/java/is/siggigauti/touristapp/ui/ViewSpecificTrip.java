@@ -3,51 +3,89 @@ package is.siggigauti.touristapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Date;
 
 import is.siggigauti.touristapp.R;
 
 public class ViewSpecificTrip extends AppCompatActivity {
 
-    private TextView textview;
+    private TextView title;
+    private TextView description;
+    private TextView price;
+    private TextView startdate;
+    private TextView enddate;
+    private TextView maxcap;
+    private TextView mincap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_specific_trip);
-        textview = (TextView) findViewById(R.id.SpecificViewTitle);
 
+        Button button_tripsList_homeButton = (Button) findViewById(R.id.button_tripsList_homeButton);
+        button_tripsList_homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(ViewSpecificTrip.this, HomePage.class);
+                startActivity(in);
+            }
+        });
+
+        Button ViewSpecificTrip_BookTrip = (Button) findViewById(R.id.ViewSpecificTrip_BookTrip);
+        ViewSpecificTrip_BookTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(ViewSpecificTrip.this, MySavedTrips.class);
+                startActivity(in);
+            }
+        });
+
+        title = (TextView) findViewById(R.id.SpecificViewTitle);
+        description = (TextView) findViewById(R.id.SpecificViewDescription);
+        price = (TextView) findViewById(R.id.SpecificViewPrice);
+        startdate = (TextView) findViewById(R.id.SpecificViewStartDate);
+        enddate = (TextView) findViewById(R.id.SpecificViewEndDate);
+        mincap = (TextView) findViewById(R.id.SpecificViewMinCap);
+        maxcap = (TextView) findViewById(R.id.SpecificViewMaxCap);
+
+        //title
         Intent intent = getIntent();
         String name = intent.getStringExtra("NameOfTrip");
-        textview.setText(name);
+        title.setText(name);
 
-        /*
-        intent.putExtra("NameOfTrip", clickedTrip.getTitle());
-        intent.putExtra("Id", clickedTrip.getID());
-        intent.putExtra("Description", clickedTrip.getDescription());
-        intent.putExtra("Price", clickedTrip.getPrice());
-        intent.putExtra("StartDate", clickedTrip.getStartDate());
-        intent.putExtra("EndDate", clickedTrip.getEndDate());
-        intent.putExtra("MinCap", clickedTrip.getMinCap());
-        intent.putExtra("MaxCap", clickedTrip.getMaxCap());
-        */
-        /*
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            mViewText.setText(bundle.getString("NameOfTrip"));
-        }
-        */
+        //description
+        String des = intent.getStringExtra("Description");
+        description.setText(des);
 
-        //AÐ VIÐ SÉUM AÐ KLIKKA Á RÉTT.....
-        /*
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("NameOfTrip");
+        //price
+        int pric = intent.getIntExtra("Price", 0);
+        price.setText(String.valueOf("Verð: " + pric + " kr"));
 
-        if(name == null) {
-            name = "Friend";
-        }
-        Log.d(TAG, name);
-        */
+        //DATE
+        // Á eftir að laga hvað við skilum
+        Date start = (Date) intent.getExtras().get("StartDate");
+        startdate.setText(String.valueOf(start));
+
+        Date eDate = (Date) intent.getExtras().get("EndDate");
+        enddate.setText(String.valueOf(eDate));
+
+        //mincap
+        int minca = intent.getIntExtra("MinCap", 0);
+        mincap.setText(String.valueOf(minca));
+
+        //maxcap
+        int maxca = intent.getIntExtra("MaxCap", 0);
+        maxcap.setText(String.valueOf(maxca));
+    }
+
+    public void book(int id){
+        //bókaferð sem gerir insert inn í db
 
     }
+
+
 }

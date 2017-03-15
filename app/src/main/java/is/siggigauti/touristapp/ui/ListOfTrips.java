@@ -65,7 +65,6 @@ public class ListOfTrips extends AppCompatActivity {
                                     View view,
                                     int position,
                                     long     id) {
-
                 Trip clickedTrip = tripsArrayList.get(position);
 
                 //String msg = "you clicked on" + position;
@@ -83,20 +82,6 @@ public class ListOfTrips extends AppCompatActivity {
                 intent.putExtra("MaxCap", clickedTrip.getMaxCap());
 
                 startActivity(intent);
-
-                    /*
-                            private final int ID;
-                            private String title;
-                            private Date startDate;
-                            private Date endDate;
-                            private String description;
-                            private int minCap;
-                            private int maxCap;
-                            private Company company;
-                            private int price;
-
-                     */
-
             }
         });
     }
