@@ -27,14 +27,29 @@ public class ListOfTrips extends AppCompatActivity {
     //ArrayList<Trip> tripsArrayList = DummyData.getTripsArrayList();
     //DBHandler db = new DBHandler(this);
     ArrayList<Trip> tripsArrayList;
+    ArrayList<Trip> tripsArrayListTEST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
 
+        // Go to filter page
+        Button button_goToFilterPage = (Button) findViewById(R.id.button_tripsList_filterButton);
+        button_goToFilterPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(ListOfTrips.this, Filter.class);
+                startActivity(in);
+            }
+        });
+
         DBHandler dbHandler = new DBHandler(this);
         tripsArrayList = dbHandler.getAllTrips();
+
+        // Er að athuga hvort ég gæti birt eina ferð eftir ég ýti á GO
+        /*tripsArrayListTEST = dbHandler.getTripById(3);
+        System.out.print(tripsArrayListTEST); */
 
         ArrayList<Company> companies = dbHandler.getAllCompanies();
         for(Company company : companies){

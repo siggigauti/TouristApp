@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Company::", log);
         }
 
-        Button b1 = (Button) findViewById(R.id.buttonNav);
+        Button b1 = (Button) findViewById(R.id.Login);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

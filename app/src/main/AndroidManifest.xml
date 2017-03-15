@@ -20,6 +20,7 @@
         <activity android:name=".ui.ListOfUsersBookings" />
         <activity android:name=".ui.ListOfSavedTrips" />
         <activity android:name=".ui.ViewSpecificTrip" />
+        <activity android:name=".ui.Filter" />
         <activity android:name=".ui.MySavedTrips"></activity>
     </application>
 
