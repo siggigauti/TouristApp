@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_specific_trip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="is.siggigauti.touristapp.ui.ViewSpecificTrip">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="146dp"
+        android:layout_marginStart="146dp"
+        android:id="@+id/SpecificViewTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SpecificViewTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="37dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="94dp"
+        android:id="@+id/SpecificViewDescription" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SpecificViewDescription"
+        android:layout_alignLeft="@+id/SpecificViewDescription"
+        android:layout_alignStart="@+id/SpecificViewDescription"
+        android:layout_marginTop="122dp"
+        android:id="@+id/SpecificViewPrice" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/SpecificViewStartDate"
+        android:layout_alignRight="@+id/SpecificViewStartDate"
+        android:layout_alignEnd="@+id/SpecificViewStartDate"
+        android:layout_marginTop="29dp"
+        android:id="@+id/SpecificViewEndDate" />
+
+    <TextView
+        android:text="TextView"
+        android:id="@+id/SpecificViewMinCap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/SpecificViewPrice"
+        android:layout_alignBottom="@+id/SpecificViewPrice"
+        android:layout_toRightOf="@+id/SpecificViewTitle"
+        android:layout_toEndOf="@+id/SpecificViewTitle" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SpecificViewMaxCap"
+        android:elevation="17dp"
+        android:layout_above="@+id/SpecificViewMinCap"
+        android:layout_alignLeft="@+id/SpecificViewMinCap"
+        android:layout_alignStart="@+id/SpecificViewMinCap"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SpecificViewStartDate"
+        android:layout_below="@+id/SpecificViewPrice"
+        android:layout_alignLeft="@+id/SpecificViewPrice"
+        android:layout_alignStart="@+id/SpecificViewPrice"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="63dp" />
+
+    <Button
+        android:text="Book"
+        android:id="@+id/ViewSpecificTrip_BookTrip"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_light"
+        android:backgroundTint="?android:attr/statusBarColor"
+        android:layout_alignBottom="@+id/button_tripsList_homeButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="100dp"
+        android:layout_alignTop="@+id/button_tripsList_homeButton"
+        android:layout_width="180dp" />
+
+    <Button
+        android:text="Home"
+        android:id="@+id/button_tripsList_homeButton"
+        android:onClick="clickButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_light"
+        android:layout_height="80dp"
+        android:layout_width="180dp" />
+
+
+</RelativeLayout>

@@ -8,9 +8,6 @@
 /captures
 .externalNativeBuild
 
-*.xml
-
-*.xml
 
 .idea/gradle.xml
 
