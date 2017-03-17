@@ -11,6 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="is.siggigauti.touristapp.ui.MainActivity">
 
+
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,30 +20,22 @@
         android:ems="10"
         android:id="@+id/MainPassword"
         android:layout_marginTop="11dp"
-        android:layout_below="@+id/MainUserName"
-        android:layout_alignLeft="@+id/MainUserName"
-        android:layout_alignStart="@+id/MainUserName"/>
+        android:layout_below="@+id/MainEmail"
+        android:layout_alignLeft="@+id/MainEmail"
+        android:layout_alignStart="@+id/MainEmail"/>
+
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:hint="Email"
+        android:inputType="text"
+        android:maxLines="1"
         android:ems="10"
-        android:id="@+id/MainUserName"
+        android:id="@+id/MainEmail"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:text="Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/MainLogin"
-        android:onClick="clickButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/MainUserName"
-        android:layout_alignEnd="@+id/MainUserName" />
 
     <Button
         android:text="Sign Up"
@@ -51,7 +45,40 @@
         android:onClick="clickButton"
         android:layout_alignBaseline="@+id/MainLogin"
         android:layout_alignBottom="@+id/MainLogin"
-        android:layout_alignLeft="@+id/MainUserName"
-        android:layout_alignStart="@+id/MainUserName" />
+        android:layout_alignRight="@+id/MainPassword"
+        android:layout_alignEnd="@+id/MainPassword" />
+
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="39dp"
+        android:id="@+id/MainLogin"
+        android:onClick="clickButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/MainPassword"
+        android:layout_alignStart="@+id/MainPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorEmail"
+        android:layout_alignBaseline="@+id/MainEmail"
+        android:layout_alignBottom="@+id/MainEmail"
+        android:layout_alignLeft="@+id/MainEmail"
+        android:layout_alignStart="@+id/MainEmail"
+        android:layout_alignRight="@+id/MainEmail"
+        android:layout_alignEnd="@+id/MainEmail" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorPassword"
+        android:layout_alignBaseline="@+id/MainPassword"
+        android:layout_alignBottom="@+id/MainPassword"
+        android:layout_alignLeft="@+id/MainPassword"
+        android:layout_alignStart="@+id/MainPassword"
+        android:layout_alignRight="@+id/MainPassword"
+        android:layout_alignEnd="@+id/MainPassword" />
 
 </RelativeLayout>

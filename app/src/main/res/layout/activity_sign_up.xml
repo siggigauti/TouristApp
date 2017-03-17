@@ -28,32 +28,79 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:layout_below="@+id/SignUpUserName"
-        android:layout_alignLeft="@+id/SignUpUserName"
-        android:layout_alignStart="@+id/SignUpUserName"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
         android:id="@+id/SignUpPassword"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/SignUpPassword"
-        android:layout_alignRight="@+id/SignUpPassword"
-        android:layout_alignEnd="@+id/SignUpPassword"
-        android:layout_marginTop="15dp"
-        android:id="@+id/SignUpPasswordConfirmPassword"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_below="@+id/SignUpEmail"
+        android:layout_alignLeft="@+id/SignUpEmail"
+        android:layout_alignStart="@+id/SignUpEmail" />
 
     <Button
         android:text="Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:id="@+id/SignUpButton"
+        android:layout_marginTop="87dp"
+        android:layout_below="@+id/SignUpPasswordConfirmPassword"
         android:layout_alignLeft="@+id/SignUpPasswordConfirmPassword"
-        android:layout_alignStart="@+id/SignUpPasswordConfirmPassword"
-        android:id="@+id/SignUpButton" />
+        android:layout_alignStart="@+id/SignUpPasswordConfirmPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorConfirmPassword"
+        android:layout_alignBaseline="@+id/SignUpPasswordConfirmPassword"
+        android:layout_alignBottom="@+id/SignUpPasswordConfirmPassword"
+        android:layout_alignLeft="@+id/SignUpPasswordConfirmPassword"
+        android:layout_alignStart="@+id/SignUpPasswordConfirmPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorName"
+        android:layout_alignBaseline="@+id/SignUpUserName"
+        android:layout_alignBottom="@+id/SignUpUserName"
+        android:layout_alignLeft="@+id/SignUpUserName"
+        android:layout_alignStart="@+id/SignUpUserName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/SignUpEmail"
+        android:hint="Email"
+        android:layout_below="@+id/SignUpUserName"
+        android:layout_alignLeft="@+id/SignUpUserName"
+        android:layout_alignStart="@+id/SignUpUserName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/SignUpPasswordConfirmPassword"
+        android:inputType="textPassword"
+        android:layout_below="@+id/SignUpPassword"
+        android:layout_alignLeft="@+id/SignUpPassword"
+        android:layout_alignStart="@+id/SignUpPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorPassword"
+        android:layout_alignBaseline="@+id/SignUpPassword"
+        android:layout_alignBottom="@+id/SignUpPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ErrorEmail"
+        android:layout_alignBaseline="@+id/SignUpEmail"
+        android:layout_alignBottom="@+id/SignUpEmail"
+        android:layout_alignLeft="@+id/SignUpEmail"
+        android:layout_alignStart="@+id/SignUpEmail"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp" />
 
 </RelativeLayout>

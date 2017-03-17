@@ -10,9 +10,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.Trip;
+import is.siggigauti.touristapp.model.User;
 
 //import java.sql.Date;
 
@@ -35,7 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //Standard member variables of the DB
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "touristTrips";
+    private static final String DATABASE_NAME = "touristTrips.db";
 
     //variable to hold the db instance
     public SQLiteDatabase db;
@@ -43,8 +45,7 @@ public class DBHandler extends SQLiteOpenHelper {
     //Table names
     private static final String TABLE_TRIPS = "trips";
     private static final String TABLE_COMPANY = "company";
-    private static final String TABLE_LOGIN = "login";
-    //private static final String TABLE_USER = "user";
+    private static final String TABLE_USER = "user";
 
 
 
@@ -68,11 +69,27 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CMPNY_DESC = "description";
 
 
-    /*columns for USER table
+
+    //USER TABLE------------------------------------
+    //columns for USER table
     private static final String USER_ID = "id";
     private static final String USER_NAME = "username";
     private static final String USER_PASSWORD = "password";
-    */
+    private static final String USER_EMAIL = "email";
+
+    //create table into a string
+    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+            + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + USER_NAME + " TEXT,"
+            + USER_EMAIL + " TEXT,"
+            + USER_PASSWORD + " TEXT" + ")";
+
+    // eyðir töflu
+    private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+
+    /*---------------------------------------------------------------*/
+
+
 
     //Constructor
     public DBHandler(Context context) {
@@ -103,16 +120,11 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + TRIP_COMPANY + ") REFERENCES " + TABLE_COMPANY + "(" + CMPNY_ID + "))";
         db.execSQL(CREATE_TRIPS_TABLE);
 
-        /*user table
-        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + USER_NAME + " TEXT NOT NULL,"
-                + USER_PASSWORD + " TEXT NOT NULL"
-                + ")";
+        //user table
         db.execSQL(CREATE_USER_TABLE);
-        */
 
-        db.execSQL(LoginDataBase.DATABASE_CREATE);
+        // Gamalt
+        // db.execSQL(LoginDataBase.DATABASE_CREATE);
     }
 
     @Override
@@ -120,8 +132,10 @@ public class DBHandler extends SQLiteOpenHelper {
         //DROP ALL TABLES AND RECREATE WITH CALLING onCreate again
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPANY);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
-        db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        //Gamalt
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
+        //db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
         onCreate(db);
     }
 
@@ -244,6 +258,176 @@ public class DBHandler extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return companyList;
+    }
+
+    /**
+     *
+     * Creates user in db
+     *
+     **/
+    public void addUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues value = new ContentValues();
+        value.put(USER_NAME, user.getName());
+        value.put(USER_EMAIL, user.getEmail());
+        value.put(USER_PASSWORD, user.getPassword());
+
+        //insert into row in db.
+        db.insert(TABLE_USER, null, value);
+        db.close();
+    }
+
+    /**
+     *
+     * get all users, fyrir admin area eða til þess að sjá all users
+     *
+     **/
+
+    public List<User> getAllUser() {
+        //fylki af dálkum
+        String[] columns = {
+                USER_ID,
+                USER_NAME,
+                USER_EMAIL,
+                USER_PASSWORD
+        };
+        //röðum í röð
+        String sort = USER_NAME + " ASC";
+
+        List<User> userList = new ArrayList<User>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //query the user table
+        Cursor cursor = db.query(TABLE_USER,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                sort);
+        if(cursor.moveToFirst()) {
+            do{
+                User user = new User();
+                user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID))));
+                user.setName(cursor.getString(cursor.getColumnIndex(USER_NAME)));
+                user.setEmail(cursor.getString(cursor.getColumnIndex(USER_EMAIL)));
+                user.setPassword(cursor.getString(cursor.getColumnIndex(USER_PASSWORD)));
+                userList.add(user);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return userList;
+    }
+
+    /**
+     *
+     * Update user info
+     *
+     **/
+
+    public void updateUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(USER_NAME, user.getName());
+        values.put(USER_EMAIL, user.getEmail());
+        values.put(USER_PASSWORD, user.getPassword());
+
+        //update row
+        db.update(TABLE_USER, values, USER_ID + " = ?",
+                new String[] {String.valueOf(user.getID())});
+        db.close();
+    }
+
+    /**
+     *
+     * Delete user
+     *
+     **/
+    public void deleteUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //delete user by id
+        db.delete(TABLE_USER, USER_ID + " = ?",
+
+                new String[]{String.valueOf(user.getID())
+
+                });
+
+        db.close();
+    }
+
+    /**
+     *
+     * check if user exist
+     *
+     **/
+    public boolean checkUser(String email) {
+
+        String[] columns = {
+                USER_ID
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //section criteria
+        String selection = USER_EMAIL + " = ?";
+
+        //selection argument
+        String[] selectionArgs = {email};
+
+        //query
+        Cursor cursor = db.query(TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if(cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * check if user exist with email and pw
+     *
+     **/
+
+    public boolean checkUser(String email, String password){
+        String[] columns = {USER_ID};
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //selection criteria
+        String selection = USER_EMAIL + " = ?" + " AND " + USER_PASSWORD + " = ?";
+        //selection argu
+        String[] selectionArgs = {email, password};
+
+        //query
+        Cursor cursor = db.query(TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if(cursorCount > 0){
+            return true;
+        }
+        return false;
     }
 
 

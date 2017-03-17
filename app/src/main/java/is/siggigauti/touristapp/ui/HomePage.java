@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import is.siggigauti.touristapp.R;
 
 public class HomePage extends AppCompatActivity {
+
+        private TextView user;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,11 @@ public class HomePage extends AppCompatActivity {
                 }
             });
 
+
+            user = (TextView) findViewById(R.id.UserName);
+            Intent intent = getIntent();
+            String name = intent.getStringExtra("UserName");
+            user.setText("USER: " + name);
             /*
             // Go to Settings Page
             Button button_goToListOfTrips = (Button) findViewById(R.id.button_goToListOfTrips);

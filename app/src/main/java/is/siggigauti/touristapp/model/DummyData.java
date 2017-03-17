@@ -26,6 +26,7 @@ public class DummyData{
     }
 
 
+    /*
     public static ArrayList<User> getUsersArrayList(){
         users.add(new User(1,"Hannes", "Iceland", "pass1", "hannes@hi.is"));
         users.add(new User(2,"Björn", "Denmark", "pass2", "bjorn@hi.is"));
@@ -34,9 +35,10 @@ public class DummyData{
         /*  Prentum út alla notendur ef viljum.
         for (int i = 0; i < users.size(); i++) {
             System.out.println(users.get(i).name);
-        } */
+        }
         return users;
     }
+    */
 
     public static ArrayList<Company> getCompaniesArrayList(){
         companies.add(new Company(1, "ReyEx","Reykjavik experiences for you."));

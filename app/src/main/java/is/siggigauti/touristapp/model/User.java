@@ -2,24 +2,20 @@ package is.siggigauti.touristapp.model;
 
 public class User {
 
-    private final int ID;
+    private  int ID;
     private String name;
     private String nationality;
     private String password;
     private String email;
 
-    public User(int ID, String name, String nationality, String password, String email) {
-        this.ID = ID;
-        this.name = name;
-        this.nationality = nationality;
-        this.password = password;
-        this.email = email;
-    }
 
     public int getID() {
         return ID;
     }
 
+    public void setId(int id) {
+        this.ID = id;
+    }
     public String getName() {
         return name;
     }
@@ -51,4 +47,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
+
