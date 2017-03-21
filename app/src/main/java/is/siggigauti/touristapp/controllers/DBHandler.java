@@ -343,6 +343,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
     /**
      *
      * Delete user
@@ -430,6 +431,49 @@ public class DBHandler extends SQLiteOpenHelper {
         return false;
     }
 
+
+    public List<User> getUserInfo(String email) {
+        //fylki af dálkum
+        String[] columns = {
+                USER_ID,
+                USER_NAME,
+                USER_EMAIL,
+                USER_PASSWORD
+        };
+        //röðum í röð
+        //String sort = USER_NAME + " ASC";
+
+        List<User> userList = new ArrayList<User>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selection = (USER_EMAIL + " = ?");
+        //selection argu
+        String[] selectionArgs = {email};
+
+        //query the user table
+        Cursor cursor = db.query(TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        if(cursor.moveToFirst()) {
+            do{
+                User user = new User();
+                user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID))));
+                user.setName(cursor.getString(cursor.getColumnIndex(USER_NAME)));
+                user.setEmail(cursor.getString(cursor.getColumnIndex(USER_EMAIL)));
+                user.setPassword(cursor.getString(cursor.getColumnIndex(USER_PASSWORD)));
+                userList.add(user);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return userList;
+    }
 
 
 }

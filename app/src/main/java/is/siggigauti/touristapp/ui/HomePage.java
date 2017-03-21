@@ -7,53 +7,51 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import is.siggigauti.touristapp.R;
+import is.siggigauti.touristapp.controllers.Session;
 
 public class HomePage extends AppCompatActivity {
 
-        private TextView user;
+        private TextView UserLabel;
+        Session session;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(is.siggigauti.touristapp.R.layout.activity_homepage);
 
-            // Go to List of trips page
-            Button button_goToListOfTrips = (Button) findViewById(R.id.button_goToListOfTrips);
-            button_goToListOfTrips.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent in = new Intent(HomePage.this, ListOfTrips.class);
-                    startActivity(in);
-                }
-            });
-
-            // Go to Your Bookings Page
-            Button button_goToUserBookings = (Button) findViewById(R.id.button_goToUserBookings);
-            button_goToUserBookings.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent in = new Intent(HomePage.this, ListOfUsersBookings.class);
-                    startActivity(in);
-                }
-            });
+            // Session class instance
+            session = new Session(getApplicationContext());
 
 
-            // Go to Your Saved Bookings Page
-            Button button_goToUserSavedTrips = (Button) findViewById(R.id.button_goToUserSavedTrips);
-            button_goToUserSavedTrips.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent in = new Intent(HomePage.this, ListOfSavedTrips.class);
-                    startActivity(in);
-                }
-            });
+            // Check user login
+            // If User is not logged in , This will redirect user to LoginActivity.
+            if(session.checkLogin())
+                finish();
 
 
-            user = (TextView) findViewById(R.id.UserName);
-            Intent intent = getIntent();
-            String name = intent.getStringExtra("UserName");
-            user.setText("USER: " + name);
+            // get user data from session
+            HashMap<String, String> user = session.getUserDetails();
+
+            // get name
+            String name = user.get(Session.KEY_NAME);
+
+            // get email
+            String email = user.get(Session.KEY_EMAIL);
+
+            //get Id
+            String ID = user.get(Session.KEY_ID);
+
+            UserLabel = (TextView) findViewById(R.id.UserName);
+            UserLabel.setText("USER: " + name + " Email: " + email);
+
+            initButtons();
+
+
+
+
             /*
             // Go to Settings Page
             Button button_goToListOfTrips = (Button) findViewById(R.id.button_goToListOfTrips);
@@ -67,5 +65,50 @@ public class HomePage extends AppCompatActivity {
             */
 
         }
+
+    public void initButtons(){
+        // Go to List of trips page
+        Button button_goToListOfTrips = (Button) findViewById(R.id.button_goToListOfTrips);
+        button_goToListOfTrips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomePage.this, ListOfTrips.class);
+                startActivity(in);
+            }
+        });
+
+        // Go to Your Bookings Page
+        Button button_goToUserBookings = (Button) findViewById(R.id.button_goToUserBookings);
+        button_goToUserBookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomePage.this, ListOfUsersBookings.class);
+                startActivity(in);
+            }
+        });
+
+
+        // Go to Your Saved Bookings Page
+        Button button_goToUserSavedTrips = (Button) findViewById(R.id.button_goToUserSavedTrips);
+        button_goToUserSavedTrips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomePage.this, ListOfSavedTrips.class);
+                startActivity(in);
+            }
+        });
+
+        // Go to Your Saved Bookings Page
+        Button logout = (Button) findViewById(R.id.LogOut);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // clear session og beint í login gluggan
+                session.logoutUser();
+            }
+        });
+    }
     }
 

@@ -9,13 +9,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import is.siggigauti.touristapp.R;
 import is.siggigauti.touristapp.controllers.DBHandler;
+import is.siggigauti.touristapp.controllers.Session;
 import is.siggigauti.touristapp.helpers.InputValidation;
+import is.siggigauti.touristapp.model.User;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final AppCompatActivity activity = MainActivity.this;
+
+    ArrayList<User> UserInfo;
+    User user;
 
     private Button LoginButton, SignUpButton;
     private EditText textUserName,
@@ -30,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //db
     private DBHandler dbHandler;
 
+    // User Session Manager Class
+    Session session;
 
 
     @Override
@@ -37,11 +46,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // User Session Manager
+        session = new Session(getApplicationContext());
+
+
+
         initViews();
         initListeners();
         initObjects();
-
-
 
     }
 
@@ -97,10 +109,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (dbHandler.checkUser(textEmail.getText().toString().trim() ,
                 textPassword.getText().toString().trim())) {
 
+
+
+            String email = textEmail.getText().toString();
+
+            UserInfo = (ArrayList<User>) dbHandler.getUserInfo(email);
+
+            //sjá hvort ég sé að sækja gögnin rétt.
+
+            int UserInfoID = 0;
+            String UserInfoName = "";
+
+            for(User user : UserInfo){
+                UserInfoID = user.getID();
+                UserInfoName = user.getName();
+                /*
+                String log = "id: "+user.getID()+", Name: "+ user.getName()+", Email: " + user.getEmail();
+                Log.d("from UserInfo:", log);
+                */
+            }
+            /*
+            String msg = ("ID; " + UserInfoID + " Name " + UserInfoName);
+            Log.d("UserInfo: ", msg);
+            */
+
+            session.createUserLoginSession(UserInfoID, UserInfoName, email);
+
             Intent accountsIntent = new Intent(activity, HomePage.class);
-            accountsIntent.putExtra("EMAIL", textEmail.getText().toString().trim());
+
+            //accountsIntent.putExtra("EMAIL", textEmail.getText().toString().trim());
+
+            //delete inputs
             emptyInputEditText();
+
             startActivity(accountsIntent);
+
+            finish();
 
         } else {
             //TOAST ERROR
