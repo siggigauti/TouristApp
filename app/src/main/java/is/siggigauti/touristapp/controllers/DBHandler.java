@@ -98,10 +98,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CATMATCH_TRIP_ID = "tripID";
 
     private String CREATE_CATMATCH_TABLE = "CREATE TABLE " + TABLE_CATMATCH + "("
-            + CATMATCH_CAT_ID + " INTEGER,"
-            + CATMATCH_TRIP_ID + " INTEGER,"
-            + "FOREIGN KEY (" + CATMATCH_CAT_ID + ") REFERENCES " + TABLE_CATEGORY + "(" + CATEGORY_ID + ")),"
-            + "FOREIGN KEY (" + CATMATCH_TRIP_ID + ") REFERENCES " + TABLE_TRIPS + "(" + TRIP_ID + "))";
+            + CATMATCH_CAT_ID + " INTEGER REFERENCES " + TABLE_CATEGORY +"("+ CATEGORY_ID + "),"
+            + CATMATCH_TRIP_ID + " INTEGER REFERENCES " + TABLE_TRIPS +"(" + TRIP_ID + "))";
     //------------------------------------------------------------------------------------
 
 
