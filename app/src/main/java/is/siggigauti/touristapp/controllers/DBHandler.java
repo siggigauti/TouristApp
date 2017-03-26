@@ -202,6 +202,8 @@ public class DBHandler extends SQLiteOpenHelper {
             db.insert(TABLE_TRIPS, null, values);
             db.close();
         }
+
+        User user = new User()
     }
 
     //Test to get all trips

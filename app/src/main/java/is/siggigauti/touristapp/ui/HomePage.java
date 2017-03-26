@@ -72,7 +72,9 @@ public class HomePage extends AppCompatActivity {
         button_goToListOfTrips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent in = new Intent(HomePage.this, ListOfTrips.class);
+
                 startActivity(in);
             }
         });
