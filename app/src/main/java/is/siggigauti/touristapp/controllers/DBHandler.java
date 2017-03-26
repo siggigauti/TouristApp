@@ -42,13 +42,16 @@ public class DBHandler extends SQLiteOpenHelper {
     //variable to hold the db instance
     public SQLiteDatabase db;
 
-    //Table names
+    //TABLE NAMES*************************************************************************
     private static final String TABLE_TRIPS = "trips";
     private static final String TABLE_COMPANY = "company";
     private static final String TABLE_USER = "user";
+    private static final String TABLE_CATMATCH = "catmatcher";
+    private static final String TABLE_CATEGORY = "category";
+    //************************************************************************************
 
 
-
+    //TRIP TABLE -------------------------------------------------------------------------
     //Columns for TRIPS table.
     private static final String TRIP_ID = "id";
     private static final String TRIP_TITLE = "title";
@@ -62,31 +65,67 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TRIP_COMPANY = "company_id"; //REMEMBER THIS IS FOREIGN KEY: ID OF COMPANY
     private static final String TRIP_PRICE = "price";
 
+    private String CREATE_TRIPS_TABLE = "CREATE TABLE " + TABLE_TRIPS + "("
+            + TRIP_ID + " INTEGER PRIMARY KEY,"
+            + TRIP_TITLE + " TEXT NOT NULL,"
+            + TRIP_START_DATE + " TEXT NOT NULL,"
+            + TRIP_END_DATE + " TEXT NOT NULL,"
+            + TRIP_DESC + " TEXT,"
+            + TRIP_MIN_CAP + " INTEGER,"
+            + TRIP_MAX_CAP + " INTEGER,"
+            + TRIP_COMPANY + " INTEGER,"
+            + TRIP_PRICE  + " INTEGER,"
+            + "FOREIGN KEY (" + TRIP_COMPANY + ") REFERENCES " + TABLE_COMPANY + "(" + CMPNY_ID + "))";
+    //------------------------------------------------------------------------------------
 
+
+    //COMPNAY TABLE ----------------------------------------------------------------------
     //Columns for COMPANY table.
     private static final String CMPNY_ID = "id";
     private static final String CMPNY_NAME = "name";
     private static final String CMPNY_DESC = "description";
 
+    private String CREATE_COMPANY_TABLE = "CREATE TABLE " + TABLE_COMPANY + "("
+            + CMPNY_ID + " INTEGER PRIMARY KEY,"
+            + CMPNY_NAME + " TEXT NOT NULL,"
+            + CMPNY_DESC + " TEXT" + ")";
+    //-------------------------------------------------------------------------------------
 
 
-    //USER TABLE------------------------------------
-    //columns for USER table
+    //CATMATCHER TABLE---------------------------------------------------------------------
+    //Columns for CATMATCH table.
+    private static final String CATMATCH_CAT_ID = "catID";
+    private static final String CATMATCH_TRIP_ID = "tripID";
+
+    private String CREATE_CATMATCH_TABLE = "CREATE TABLE " + TABLE_CATMATCH + "("
+            + CATMATCH_CAT_ID + " INTEGER,"
+            + CATMATCH_TRIP_ID + " INTEGER,"
+            + "FOREIGN KEY (" + CATMATCH_CAT_ID + ") REFERENCES " + TABLE_CATEGORY + "(" + CATEGORY_ID + ")),"
+            + "FOREIGN KEY (" + CATMATCH_TRIP_ID + ") REFERENCES " + TABLE_TRIPS + "(" + TRIP_ID + "))";
+    //------------------------------------------------------------------------------------
+
+
+    //CATEGORY TABLE----------------------------------------------------------------------
+    private static final String CATEGORY_ID = "catID";
+    private static final String CATEGORY_TAG = "catTag";
+
+    private String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY + "("
+            + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + CATEGORY_TAG + " TEXT" + ")";
+    //------------------------------------------------------------------------------------
+
+
+    //USER TABLE--------------------------------------------------------------------------
     private static final String USER_ID = "id";
     private static final String USER_NAME = "username";
     private static final String USER_PASSWORD = "password";
     private static final String USER_EMAIL = "email";
 
-    //create table into a string
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + USER_NAME + " TEXT,"
             + USER_EMAIL + " TEXT,"
             + USER_PASSWORD + " TEXT" + ")";
-
-    // eyðir töflu
-    private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
-
     /*---------------------------------------------------------------*/
 
 
@@ -98,33 +137,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //Here we create all our tables, in the right order for the foreign TRIPs to work.
-        //May be put into a seperate function.
-        String CREATE_COMPANY_TABLE = "CREATE TABLE " + TABLE_COMPANY + "("
-                + CMPNY_ID + " INTEGER PRIMARY KEY,"
-                + CMPNY_NAME + " TEXT NOT NULL,"
-                + CMPNY_DESC + " TEXT"
-                + ")";
         db.execSQL(CREATE_COMPANY_TABLE);
-
-        String CREATE_TRIPS_TABLE = "CREATE TABLE " + TABLE_TRIPS + "("
-                + TRIP_ID + " INTEGER PRIMARY KEY,"
-                + TRIP_TITLE + " TEXT NOT NULL,"
-                + TRIP_START_DATE + " TEXT NOT NULL,"
-                + TRIP_END_DATE + " TEXT NOT NULL,"
-                + TRIP_DESC + " TEXT,"
-                + TRIP_MIN_CAP + " INTEGER,"
-                + TRIP_MAX_CAP + " INTEGER,"
-                + TRIP_COMPANY + " INTEGER," 
-                + TRIP_PRICE  + " INTEGER," 
-                + "FOREIGN KEY (" + TRIP_COMPANY + ") REFERENCES " + TABLE_COMPANY + "(" + CMPNY_ID + "))";
         db.execSQL(CREATE_TRIPS_TABLE);
-
-        //user table
         db.execSQL(CREATE_USER_TABLE);
-
-        // Gamalt
-        // db.execSQL(LoginDataBase.DATABASE_CREATE);
+        db.execSQL(CREATE_CATMATCH_TABLE);
+        db.execSQL(CREATE_CATEGORY_TABLE);
     }
 
     @Override
@@ -133,9 +150,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPANY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        //Gamalt
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
-        //db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATMATCH);
         onCreate(db);
     }
 
