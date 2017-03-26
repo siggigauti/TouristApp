@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("UserInfo: ", msg);
             */
 
-            session.createUserLoginSession(UserInfoID, UserInfoName, email);
+            session.createUserLoginSession(UserInfoID, email, UserInfoName);
 
             Intent accountsIntent = new Intent(activity, HomePage.class);
 

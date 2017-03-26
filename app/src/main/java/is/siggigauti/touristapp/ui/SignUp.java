@@ -34,8 +34,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         initViews();
         initListeners();
         initObjects();
-
-
     }
 
     //init views
