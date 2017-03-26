@@ -29,6 +29,7 @@ public class ListOfTrips extends AppCompatActivity {
     ArrayList<Trip> tripsArrayList;
     ArrayList<Trip> tripsArrayListTEST;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,6 @@ public class ListOfTrips extends AppCompatActivity {
         });
 
         DBHandler dbHandler = new DBHandler(this);
-        dbHandler.populate();
         tripsArrayList = dbHandler.getAllTrips();
 
         // Er að athuga hvort ég gæti birt eina ferð eftir ég ýti á GO

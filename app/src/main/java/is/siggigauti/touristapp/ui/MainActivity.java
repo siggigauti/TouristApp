@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHandler = new DBHandler(this);
+        dbHandler.populate();
         // User Session Manager
         session = new Session(getApplicationContext());
 

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.DateFormat;
@@ -203,7 +204,17 @@ public class DBHandler extends SQLiteOpenHelper {
             db.close();
         }
 
-        User user = new User()
+        ContentValues value = new ContentValues();
+        User user = new User();
+        user.setEmail("a@a.is");
+        user.setName("a");
+        user.setPassword("a");
+        value.put(USER_NAME, user.getName());
+        value.put(USER_EMAIL, user.getEmail());
+        value.put(USER_PASSWORD, user.getPassword());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_USER, null, value);
+        db.close();
     }
 
     //Test to get all trips
