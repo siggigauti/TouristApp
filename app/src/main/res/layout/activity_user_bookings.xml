@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,10 +19,24 @@
         android:backgroundTint="@color/colorAccent" />
 
     <ListView
+        android:id="@+id/user_bookings_list_view"
         android:layout_width="match_parent"
-        android:layout_height="490dp"
-        android:layout_above="@+id/button"
+        android:layout_height="440dp"
+        android:layout_below="@+id/user_bookings_header"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/user_bookings_header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="Your Bookings"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textColorLink="@android:color/background_light"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

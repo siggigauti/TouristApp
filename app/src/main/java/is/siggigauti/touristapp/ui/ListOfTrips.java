@@ -17,24 +17,18 @@ import java.util.ArrayList;
 import is.siggigauti.touristapp.R;
 import is.siggigauti.touristapp.controllers.DBHandler;
 import is.siggigauti.touristapp.model.Company;
-import is.siggigauti.touristapp.model.DummyData;
 import is.siggigauti.touristapp.model.Trip;
 
 //https://www.youtube.com/watch?v=WRANgDgM2Zg
 public class ListOfTrips extends AppCompatActivity {
-    //Sækjum arrayLista af User objectum frá DummyData/gagnagrunn
-    // Her er því nóg að provida endapunkt sem skilar arrayLista af User/whatever objecti
-    //ArrayList<Trip> tripsArrayList = DummyData.getTripsArrayList();
-    //DBHandler db = new DBHandler(this);
-    ArrayList<Trip> tripsArrayList;
-    ArrayList<Trip> tripsArrayListTEST;
+
+    ArrayList<Trip> tripsArrayList = new ArrayList<Trip>();
+    public static int idToSearchFor[] = new int[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
-
-
 
         // Go to filter page
         Button button_goToFilterPage = (Button) findViewById(R.id.button_tripsList_filterButton);
@@ -48,11 +42,22 @@ public class ListOfTrips extends AppCompatActivity {
 
         DBHandler dbHandler = new DBHandler(this);
         dbHandler.populate();
-        tripsArrayList = dbHandler.getAllTrips();
 
-        // Er að athuga hvort ég gæti birt eina ferð eftir ég ýti á GO
-        /*tripsArrayListTEST = dbHandler.getTripById(3);
-        System.out.print(tripsArrayListTEST); */
+        boolean getAll = true;
+            for(int i = 0; i < idToSearchFor.length; i++){
+                if(idToSearchFor[i] == 1){
+                    getAll = false;
+                    // Hér vantar fall til að sækja og setja í fylki öll trip object með id i+1
+                    if(dbHandler.getTripFromId(i) != null){
+                        tripsArrayList.add(dbHandler.getTripFromId(i+1));
+                    }
+                }
+            }
+        if(getAll){
+            tripsArrayList = dbHandler.getAllTrips();
+        }
+
+
 
         ArrayList<Company> companies = dbHandler.getAllCompanies();
         for(Company company : companies){
@@ -69,6 +74,9 @@ public class ListOfTrips extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(ListOfTrips.this, HomePage.class);
+                for(int i = 0; i < idToSearchFor.length; i++){
+                    idToSearchFor[i] = 0;
+                }
                 startActivity(in);
             }
         });
@@ -113,7 +121,7 @@ public class ListOfTrips extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter <Trip> {
         public MyListAdapter(){
-            super(ListOfTrips.this, R.layout.list_row, tripsArrayList);
+            super(ListOfTrips.this, R.layout.list_row_all_trips, tripsArrayList);
         }
 
         @Override
@@ -121,7 +129,7 @@ public class ListOfTrips extends AppCompatActivity {
          // Verum sure að við höfum view til að vinna með.
             View itemRowView = convertView;
             if (itemRowView == null){
-                itemRowView = getLayoutInflater().inflate(R.layout.list_row, parent, false);
+                itemRowView = getLayoutInflater().inflate(R.layout.list_row_all_trips, parent, false);
             }
 
          // Finnum trip til að vinna með
@@ -146,15 +154,6 @@ public class ListOfTrips extends AppCompatActivity {
 
 
 
-    public void clickButton(View view){
-        Log.i("klikk", "ytt á takka");
-
-        ArrayList<Trip> usersArrayList = DummyData.getTripsArrayList();
-
-        for (int i = 0; i < usersArrayList.size(); i++) {
-            System.out.println(usersArrayList.get(i).getPrice());
-        }
-    }
 
 
 }

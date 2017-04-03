@@ -22,7 +22,6 @@ public class DummyData{
         //Fylla listana af gögnum
         SimpleDateFormat textFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
         categories.add(new Category(1, "Diving"));
-        catMatchers.add(new CatMatcher(categories.get(0), trips.get(0)));
     }
 
 

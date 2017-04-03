@@ -12,9 +12,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import is.siggigauti.touristapp.model.Category;
 import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.Trip;
 import is.siggigauti.touristapp.model.User;
+import is.siggigauti.touristapp.model.CatMatcher;
+
+
+import static is.siggigauti.touristapp.model.DummyData.categories;
+
 
 //import java.sql.Date;
 
@@ -46,10 +52,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_TRIPS = "trips";
     private static final String TABLE_COMPANY = "company";
     private static final String TABLE_USER = "user";
+    private static final String TABLE_CATEGORIES = "categories";
+    private static final String TABLE_CATEGORIES_MATCHER = "cat_matcher";
 
 
 
-    //Columns for TRIPS table.
+    //TRIPS table-------------------------
     private static final String TRIP_ID = "id";
     private static final String TRIP_TITLE = "title";
     //ASIDE: SQLite notar TEXT til að geyma time.
@@ -62,20 +70,28 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TRIP_COMPANY = "company_id"; //REMEMBER THIS IS FOREIGN KEY: ID OF COMPANY
     private static final String TRIP_PRICE = "price";
 
-
-    //Columns for COMPANY table.
+    //COMPANY table---------------------------------
     private static final String CMPNY_ID = "id";
     private static final String CMPNY_NAME = "name";
     private static final String CMPNY_DESC = "description";
 
-
-
     //USER TABLE------------------------------------
-    //columns for USER table
     private static final String USER_ID = "id";
     private static final String USER_NAME = "username";
     private static final String USER_PASSWORD = "password";
     private static final String USER_EMAIL = "email";
+
+    //CATEGORY TABLE------------------------------------
+    private static final String CATEGORY_ID = "id";
+    private static final String CATEGORY_NAME = "category_name";
+
+
+    //CATEGORY MATCHER TABLE------------------------------------
+    private static final String CAT_MATCHER_ID = "category_matcherId";
+    private static final String CAT_TRIP_ID = "tripId";
+    private static final String CAT_ID = "categoryId";
+
+
 
     //create table into a string
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
@@ -86,6 +102,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // eyðir töflu
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    private String DROP_CAT_TABLE = "DROP TABLE IF EXISTS " + TABLE_CATEGORIES;
+    private String DROP_CAT_MATCHER_TABLE = "DROP TABLE IF EXISTS " + TABLE_CATEGORIES_MATCHER;
 
     /*---------------------------------------------------------------*/
 
@@ -97,7 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+        public void onCreate(SQLiteDatabase db) {
         //Here we create all our tables, in the right order for the foreign TRIPs to work.
         //May be put into a seperate function.
         String CREATE_COMPANY_TABLE = "CREATE TABLE " + TABLE_COMPANY + "("
@@ -106,6 +124,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + CMPNY_DESC + " TEXT"
                 + ")";
         db.execSQL(CREATE_COMPANY_TABLE);
+
 
         String CREATE_TRIPS_TABLE = "CREATE TABLE " + TABLE_TRIPS + "("
                 + TRIP_ID + " INTEGER PRIMARY KEY,"
@@ -120,6 +139,23 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + TRIP_COMPANY + ") REFERENCES " + TABLE_COMPANY + "(" + CMPNY_ID + "))";
         db.execSQL(CREATE_TRIPS_TABLE);
 
+
+        String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES + "("
+                + CATEGORY_ID + " INTEGER PRIMARY KEY,"
+                + CATEGORY_NAME + " TEXT NOT NULL"
+                + ")";
+        db.execSQL(CREATE_CATEGORY_TABLE);
+
+
+        String CREATE_CATEGORY_MATCHER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES_MATCHER + "("
+                + CAT_TRIP_ID + " INTEGER,"
+                + CAT_ID + " INTEGER"
+                + ")";
+        db.execSQL(CREATE_CATEGORY_MATCHER_TABLE);
+
+
+
+
         //user table
         db.execSQL(CREATE_USER_TABLE);
 
@@ -133,9 +169,10 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPANY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        //Gamalt
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
-        //db.execSQL("DROP TABLE IF EXISTS " + "TEMPLATE");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES_MATCHER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+
+
         onCreate(db);
     }
 
@@ -163,14 +200,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<Trip> trips = new ArrayList<Trip>();
-        trips.add(new Trip(1, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
-        trips.add(new Trip(2, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(2), 10000));
-        trips.add(new Trip(3, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
-        trips.add(new Trip(4, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(1), 20000));
-        trips.add(new Trip(5, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
-        trips.add(new Trip(6, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(1), 10000));
-        trips.add(new Trip(7, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
-        trips.add(new Trip(8, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(2), 20000));
+        trips.add(new Trip(0, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
+        trips.add(new Trip(1, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(2), 10000));
+        trips.add(new Trip(2, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
+        trips.add(new Trip(3, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(1), 20000));
+        trips.add(new Trip(4, "Diving", changeStringToDate("2017-05-21"), changeStringToDate("2017-05-21"), "Diving at pool", 0, 10, companies.get(0), 30000));
+        trips.add(new Trip(5, "Sport Car Driving", changeStringToDate("2017-06-21"), changeStringToDate("2017-06-22"), "Drive a ferrari", 0, 3, companies.get(1), 10000));
+        trips.add(new Trip(6, "Mountain Climbing", changeStringToDate("2017-07-2"), changeStringToDate("2017-07-2"), "See all the mountains", 0, 10, companies.get(0), 15000));
+        trips.add(new Trip(7, "Horse riding", changeStringToDate("2017-07-4"), changeStringToDate("2017-07-5"), "Wanna pet a horse?", 0, 10, companies.get(2), 20000));
         for(Trip obj : trips){
             ContentValues values = new ContentValues();
             //values.put(TRIP_ID, obj.getID());
@@ -188,7 +225,63 @@ public class DBHandler extends SQLiteOpenHelper {
             db.insert(TABLE_TRIPS, null, values);
             db.close();
         }
+
+
+// BÆTUM VIÐ CATEGORIES
+        ArrayList<Category> catagories = new ArrayList<Category>();
+        categories.add(new Category(1, "HASAR OG STEMMARI"));
+        categories.add(new Category(2, "CRACKING A COLD ONE WITH THE BOYZZ"));
+        categories.add(new Category(3, "SUPER FÖN AND LASZERS"));
+        categories.add(new Category(4, "Útivist"));
+        categories.add(new Category(5, "Bæjarferðir"));
+
+        for(Category obj : categories){
+            ContentValues values = new ContentValues();
+            values.put(CATEGORY_NAME, obj.getName());
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.insert(TABLE_CATEGORIES, null, values);
+            db.close();
+        }
+
+// BÆTUM CATEGORIES Á TRIP OBJECTS - CATEGORY MATCHER - TRIP_ID og CAT_ID
+        ArrayList<CatMatcher> cat_matcher = new ArrayList<CatMatcher>();  // Ferðir með id 1-8
+        cat_matcher.add(new CatMatcher(1,0));   // Fyrst kemur id á ferðinni, svo á category
+        cat_matcher.add(new CatMatcher(1,1));
+
+        cat_matcher.add(new CatMatcher(2,0));
+        cat_matcher.add(new CatMatcher(2,2));
+
+        cat_matcher.add(new CatMatcher(3,2));
+        cat_matcher.add(new CatMatcher(3,3));
+        cat_matcher.add(new CatMatcher(3,4));
+        cat_matcher.add(new CatMatcher(3,0));
+
+        cat_matcher.add(new CatMatcher(4,0));
+        cat_matcher.add(new CatMatcher(4,2));
+
+        cat_matcher.add(new CatMatcher(5,0));
+        cat_matcher.add(new CatMatcher(5,2));
+        cat_matcher.add(new CatMatcher(6,1));
+        cat_matcher.add(new CatMatcher(6,2));
+        cat_matcher.add(new CatMatcher(6,3));
+        cat_matcher.add(new CatMatcher(7,0));
+        cat_matcher.add(new CatMatcher(7,2));
+        cat_matcher.add(new CatMatcher(7,4));
+
+
+        for(CatMatcher obj : cat_matcher){
+            ContentValues values = new ContentValues();
+            values.put(CAT_TRIP_ID, obj.getTripId());
+            values.put(CAT_ID, obj.getCategoryId());
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            db.insert(TABLE_CATEGORIES_MATCHER, null, values);
+            db.close();
+        }
     }
+
+
+
 
     //Test to get all trips
     public ArrayList<Trip> getAllTrips() {
@@ -219,6 +312,8 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return tripList;
     }
+
+
 
     public Date changeStringToDate(String input){
         try {
@@ -258,6 +353,69 @@ public class DBHandler extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return companyList;
+    }
+
+
+    public Trip getTripFromId(int tripId){
+        ArrayList<Company> companyList = getAllCompanies();
+        Trip tripFromId;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String selectQuery = "SELECT * FROM "+TABLE_TRIPS+" WHERE id="+tripId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            tripFromId = new Trip(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    changeStringToDate(cursor.getString(2)),
+                    changeStringToDate(cursor.getString(3)),
+                    cursor.getString(4),
+                    cursor.getInt(5),
+                    cursor.getInt(6),
+                    getCompanyByIdFromList(companyList, cursor.getInt(7)),
+                    cursor.getInt(8)
+            );
+            return tripFromId;
+        }
+        return null;
+    }
+
+
+
+    public ArrayList<Category> getAllCategories(){
+        ArrayList<Category> categoryList = new ArrayList<Category>();
+        String selectQuery = "SELECT * FROM "+TABLE_CATEGORIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                Category category = new Category(
+                        cursor.getInt(0),
+                        cursor.getString(1));
+                categoryList.add(category);
+            }while(cursor.moveToNext());
+        }
+        return categoryList;
+    }
+
+
+    public ArrayList<CatMatcher> getAllCatMatcher(){
+        ArrayList<CatMatcher> catList = new ArrayList<CatMatcher>();
+        String selectQuery = "SELECT * FROM "+TABLE_CATEGORIES_MATCHER;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                CatMatcher category = new CatMatcher(
+                        cursor.getInt(0),
+                        cursor.getInt(1));
+                catList.add(category);
+            }while(cursor.moveToNext());
+        }
+        return catList;
     }
 
     /**

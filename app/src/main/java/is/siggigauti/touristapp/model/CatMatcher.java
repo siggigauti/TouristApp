@@ -2,19 +2,21 @@ package is.siggigauti.touristapp.model;
 
 public class CatMatcher {
 
-    private final Category category;
-    private final Trip trip;
+    private final int categoryId;
+    private final int tripId;
 
-    public CatMatcher(Category category, Trip trip) {
-        this.category = category;
-        this.trip = trip;
+    public CatMatcher( int categoryId, int tripId) {
+        this.categoryId = categoryId;
+        this.tripId = tripId;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public int getTripId() {
+        return tripId;
     }
+
+
 }

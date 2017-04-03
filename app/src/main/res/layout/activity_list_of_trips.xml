@@ -21,17 +21,17 @@
         android:layout_width="180dp" />
 
     <Button
-        android:text="Filter"
         android:id="@+id/button_tripsList_filterButton"
-        android:textSize="24sp"
-        android:textColor="@android:color/background_light"
-        android:backgroundTint="?android:attr/statusBarColor"
-        android:layout_alignBottom="@+id/button_tripsList_homeButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_width="180dp"
         android:layout_height="100dp"
+        android:layout_alignBottom="@+id/button_tripsList_homeButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/button_tripsList_homeButton"
-        android:layout_width="180dp" />
+        android:backgroundTint="?android:attr/statusBarColor"
+        android:text="Clear and Filter "
+        android:textColor="@android:color/background_light"
+        android:textSize="22sp" />
 
     <ListView
         android:layout_width="match_parent"
