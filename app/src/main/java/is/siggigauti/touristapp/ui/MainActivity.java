@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHandler = new DBHandler(this);
+        dbHandler.populate();
         // User Session Manager
         session = new Session(getApplicationContext());
 
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("UserInfo: ", msg);
             */
 
-            session.createUserLoginSession(UserInfoID, UserInfoName, email);
+            session.createUserLoginSession(UserInfoID, email, UserInfoName);
 
             Intent accountsIntent = new Intent(activity, HomePage.class);
 

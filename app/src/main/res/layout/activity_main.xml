@@ -26,15 +26,15 @@
 
 
     <EditText
+        android:id="@+id/MainEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="text"
-        android:maxLines="1"
-        android:ems="10"
-        android:id="@+id/MainEmail"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"/>
 
 
     <Button
