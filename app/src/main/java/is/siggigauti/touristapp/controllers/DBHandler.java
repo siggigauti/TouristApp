@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import is.siggigauti.touristapp.model.Booking;
 import is.siggigauti.touristapp.model.Category;
 import is.siggigauti.touristapp.model.Company;
 import is.siggigauti.touristapp.model.Trip;
@@ -183,6 +185,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES_MATCHER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
 
 
         onCreate(db);
@@ -307,6 +310,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void bookTrip(int userID, int tripID){
         SQLiteDatabase db = this.getWritableDatabase();
 
+        System.out.println("Er að búa til booking með user: "+userID + " og trip: "+tripID);
         ContentValues values = new ContentValues();
         values.put(BOOKING_USERID, userID);
         values.put(BOOKING_TRIPID, tripID);
@@ -319,30 +323,33 @@ public class DBHandler extends SQLiteOpenHelper {
     //Tekur inn userID (logged in user) og skilar Arraylista af trips sem þessi user hefur bókað
     public ArrayList<Trip> getBookedTripsByUserId(int userID){
 
-        ArrayList<Company> companyList = getAllCompanies();
         ArrayList<Trip> result = new ArrayList<Trip>();
-        String selectQuery = "SELECT * FROM " + TABLE_TRIPS
-                +" WHERE "+TRIP_ID
-                +" = ( SELECT "+ BOOKING_TRIPID +" FROM "+TABLE_BOOKINGS+" WHERE "+BOOKING_USERID+" = "+userID;
+        ArrayList<Trip> allTrips = getAllTrips();
+        ArrayList<Booking> userBookings = getAllBookingsByUserId(userID);
+        for(Trip trip : allTrips){
+            for(Booking booking : userBookings){
+                if(trip.getID() == booking.getTrip()){
+                    result.add(trip);
+                }
+            }
+        }
+        return result;
+    }
 
+    public ArrayList<Booking> getAllBookingsByUserId(int userId){
+        ArrayList<Booking> result = new ArrayList<Booking>();
+        String selectQuery = "SELECT * FROM "+TABLE_BOOKINGS+" WHERE "+BOOKING_USERID+" = "+userId;
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
-                Trip trip = new Trip(
+                Booking booking = new Booking(
                         cursor.getInt(0),
-                        cursor.getString(1),
-                        changeStringToDate(cursor.getString(2)),
-                        changeStringToDate(cursor.getString(3)),
-                        cursor.getString(4),
-                        cursor.getInt(5),
-                        cursor.getInt(6),
-                        getCompanyByIdFromList(companyList, cursor.getInt(7)),
-                        cursor.getInt(8)
+                        cursor.getInt(1),
+                        cursor.getInt(2)
                 );
-
-                result.add(trip);
-            } while(cursor.moveToNext());
+                result.add(booking);
+            }while(cursor.moveToNext());
         }
         return result;
     }

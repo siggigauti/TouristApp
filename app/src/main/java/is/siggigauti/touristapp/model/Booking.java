@@ -3,10 +3,10 @@ package is.siggigauti.touristapp.model;
 public class Booking {
 
     private final int ID;
-    private User user;
-    private Trip trip;
+    private int user;
+    private int trip;
 
-    public Booking(int ID, User user, Trip trip) {
+    public Booking(int ID, int user, int trip) {
         this.ID = ID;
         this.user = user;
         this.trip = trip;
@@ -16,19 +16,19 @@ public class Booking {
         return ID;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
-    public Trip getTrip() {
+    public int getTrip() {
         return trip;
     }
 
-    public void setTrip(Trip trip) {
+    public void setTrip(int trip) {
         this.trip = trip;
     }
 }

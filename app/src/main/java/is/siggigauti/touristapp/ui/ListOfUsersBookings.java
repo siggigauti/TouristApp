@@ -11,19 +11,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import is.siggigauti.touristapp.R;
+import is.siggigauti.touristapp.controllers.DBHandler;
+import is.siggigauti.touristapp.controllers.Session;
 import is.siggigauti.touristapp.model.DummyData;
 import is.siggigauti.touristapp.model.Trip;
 
 public class ListOfUsersBookings extends AppCompatActivity {
     //Sækjum arrayLista af Trip objectum frá DummyData/gagnagrunn
-    ArrayList<Trip> trips_booked_by_user = DummyData.getTripsArrayList();
+    ArrayList<Trip> trips_booked_by_user;
+    Session session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(is.siggigauti.touristapp.R.layout.activity_user_bookings);
+
+        session = new Session(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
+        final String userID = user.get(Session.KEY_ID);
+
+        DBHandler dbHandler = new DBHandler(this);
+        trips_booked_by_user = dbHandler.getBookedTripsByUserId(Integer.parseInt(userID));
 
         // Setjum gögnin í listann.
         populateListView();
