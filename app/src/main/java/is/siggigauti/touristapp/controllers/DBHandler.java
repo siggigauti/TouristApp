@@ -278,6 +278,17 @@ public class DBHandler extends SQLiteOpenHelper {
             db.insert(TABLE_CATEGORIES_MATCHER, null, values);
             db.close();
         }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues value = new ContentValues();
+        value.put(USER_NAME, "aa");
+        value.put(USER_EMAIL, "a@a.is");
+        value.put(USER_PASSWORD, "a");
+
+        //insert into row in db.
+        db.insert(TABLE_USER, null, value);
+        db.close();
     }
 
 

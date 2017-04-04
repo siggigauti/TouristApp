@@ -80,12 +80,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SpecificViewStartDate"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="39dp"
         android:layout_below="@+id/SpecificViewPrice"
         android:layout_alignLeft="@+id/SpecificViewPrice"
-        android:layout_alignStart="@+id/SpecificViewPrice"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="63dp" />
+        android:layout_alignStart="@+id/SpecificViewPrice"/>
 
     <Button
         android:text="Book"
@@ -113,6 +113,16 @@
         android:textColor="@android:color/background_light"
         android:layout_height="80dp"
         android:layout_width="180dp" />
+
+    <TextView
+        android:id="@+id/weatherTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/SpecificViewEndDate"
+        android:layout_alignRight="@+id/SpecificViewEndDate"
+        android:layout_below="@+id/SpecificViewEndDate"
+        android:layout_marginTop="24dp"
+        android:text="TextView"/>
 
 
 </RelativeLayout>
