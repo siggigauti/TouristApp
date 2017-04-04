@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for(User user : UserInfo){
                 UserInfoID = user.getID();
                 UserInfoName = user.getName();
+
                 /*
                 String log = "id: "+user.getID()+", Name: "+ user.getName()+", Email: " + user.getEmail();
                 Log.d("from UserInfo:", log);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String msg = ("ID; " + UserInfoID + " Name " + UserInfoName);
             Log.d("UserInfo: ", msg);
             */
-
+            System.out.println("USER ID SHOULD BE: "+UserInfoID);
             session.createUserLoginSession(UserInfoID, email, UserInfoName);
 
             Intent accountsIntent = new Intent(activity, HomePage.class);

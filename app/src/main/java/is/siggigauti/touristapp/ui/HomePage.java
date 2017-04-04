@@ -43,6 +43,7 @@ public class HomePage extends AppCompatActivity {
 
             //get Id
             String ID = user.get(Session.KEY_ID);
+            System.out.println("USERID this should be 1: "+ID);
 
             UserLabel = (TextView) findViewById(R.id.UserName);
             UserLabel.setText("USER: " + name + " Email: " + email);

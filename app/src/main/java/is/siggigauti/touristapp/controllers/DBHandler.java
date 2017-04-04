@@ -54,6 +54,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_USER = "user";
     private static final String TABLE_CATEGORIES = "categories";
     private static final String TABLE_CATEGORIES_MATCHER = "cat_matcher";
+    private static final String TABLE_BOOKINGS = "bookings";
 
 
 
@@ -90,6 +91,11 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CAT_MATCHER_ID = "category_matcherId";
     private static final String CAT_TRIP_ID = "tripId";
     private static final String CAT_ID = "categoryId";
+
+
+    private static final String BOOKING_ID = "bookingId";
+    private static final String BOOKING_USERID = "userId";
+    private static final String BOOKING_TRIPID = "tripId";
 
 
 
@@ -153,6 +159,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ")";
         db.execSQL(CREATE_CATEGORY_MATCHER_TABLE);
 
+        String CREATE_BOOKING_TABLE = "CREATE TABLE IF NOT EXISTS "+TABLE_BOOKINGS + "("
+                + BOOKING_ID + " INTEGER PRIMARY KEY,"
+                + BOOKING_USERID + " INTEGER,"
+                + BOOKING_TRIPID + " INTEGER"
+                + ")";
+        db.execSQL(CREATE_BOOKING_TABLE);
 
 
 
@@ -288,6 +300,19 @@ public class DBHandler extends SQLiteOpenHelper {
 
         //insert into row in db.
         db.insert(TABLE_USER, null, value);
+        db.close();
+    }
+
+
+    public void bookTrip(int userID, int tripID){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(BOOKING_USERID, userID);
+        values.put(BOOKING_TRIPID, tripID);
+
+        db.insert(TABLE_BOOKINGS, null, values);
+
         db.close();
     }
 

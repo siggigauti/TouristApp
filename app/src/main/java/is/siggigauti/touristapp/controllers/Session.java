@@ -39,7 +39,7 @@ public class Session {
     public static final String KEY_EMAIL = "email";
 
     //user id
-    public static final String KEY_ID = "id";
+    public static final String KEY_ID = "ID";
 
     // Constructor
     public Session(Context context){
@@ -107,6 +107,8 @@ public class Session {
 
         // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+
+        user.put(KEY_ID, Integer.toString(pref.getInt(KEY_ID, 0)));
 
         // return user
         return user;

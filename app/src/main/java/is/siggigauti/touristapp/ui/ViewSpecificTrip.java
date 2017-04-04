@@ -21,8 +21,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 
 import is.siggigauti.touristapp.R;
+import is.siggigauti.touristapp.controllers.DBHandler;
+import is.siggigauti.touristapp.controllers.Session;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,6 +38,10 @@ public class ViewSpecificTrip extends AppCompatActivity {
     private double latitude = 64;
     private double longitude = -21;
     private CurrentWeather mCurrentWeather;
+    private DBHandler dbHandler;
+    Session session;
+
+
 
     private TextView title;
     private TextView description;
@@ -49,6 +56,11 @@ public class ViewSpecificTrip extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_specific_trip);
+        session = new Session(getApplicationContext());
+        HashMap<String, String> user = session.getUserDetails();
+        final String ID = user.get(Session.KEY_ID);
+        Intent intent = getIntent();
+        final int trip = intent.getIntExtra("Id",0);
 
         Button button_tripsList_homeButton = (Button) findViewById(R.id.button_tripsList_homeButton);
         button_tripsList_homeButton.setOnClickListener(new View.OnClickListener() {
@@ -63,10 +75,12 @@ public class ViewSpecificTrip extends AppCompatActivity {
         ViewSpecificTrip_BookTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(ViewSpecificTrip.this, MySavedTrips.class);
-                startActivity(in);
+                book(Integer.parseInt(ID), trip);
             }
         });
+
+
+
 
         title = (TextView) findViewById(R.id.SpecificViewTitle);
         description = (TextView) findViewById(R.id.SpecificViewDescription);
@@ -81,9 +95,9 @@ public class ViewSpecificTrip extends AppCompatActivity {
         getForecast(latitude, longitude);
     }
 
-    public void book(int id){
-        //bókaferð sem gerir insert inn í db
-
+    public void book(int user, int trip){
+        dbHandler = new DBHandler(this);
+        dbHandler.bookTrip(user, trip);
     }
 
 
