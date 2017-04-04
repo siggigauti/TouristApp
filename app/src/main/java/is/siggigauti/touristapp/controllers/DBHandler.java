@@ -316,7 +316,36 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Tekur inn userID (logged in user) og skilar Arraylista af trips sem þessi user hefur bókað
+    public ArrayList<Trip> getBookedTripsByUserId(int userID){
 
+        ArrayList<Company> companyList = getAllCompanies();
+        ArrayList<Trip> result = new ArrayList<Trip>();
+        String selectQuery = "SELECT * FROM " + TABLE_TRIPS
+                +" WHERE "+TRIP_ID
+                +" = ( SELECT "+ BOOKING_TRIPID +" FROM "+TABLE_BOOKINGS+" WHERE "+BOOKING_USERID+" = "+userID;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor.moveToFirst()){
+            do{
+                Trip trip = new Trip(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        changeStringToDate(cursor.getString(2)),
+                        changeStringToDate(cursor.getString(3)),
+                        cursor.getString(4),
+                        cursor.getInt(5),
+                        cursor.getInt(6),
+                        getCompanyByIdFromList(companyList, cursor.getInt(7)),
+                        cursor.getInt(8)
+                );
+
+                result.add(trip);
+            } while(cursor.moveToNext());
+        }
+        return result;
+    }
 
 
     //Test to get all trips
