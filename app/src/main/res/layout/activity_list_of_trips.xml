@@ -39,7 +39,8 @@
         android:layout_height="480dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/button_tripsList_homeButton"/>
 
 
 </RelativeLayout>

@@ -12,25 +12,25 @@
     tools:context="is.siggigauti.touristapp.ui.MainActivity">
 
 
-
     <EditText
+        android:id="@+id/MainPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/MainPassword"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/MainEmail"
         android:layout_alignLeft="@+id/MainEmail"
-        android:layout_alignStart="@+id/MainEmail"/>
+        android:layout_alignStart="@+id/MainEmail"
+        android:layout_below="@+id/MainEmail"
+        android:layout_marginTop="11dp"
+        android:ems="10"
+        android:inputType="textPassword"/>
 
 
     <EditText
         android:id="@+id/MainEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="66dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -52,12 +52,12 @@
         android:text="Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="39dp"
         android:id="@+id/MainLogin"
         android:onClick="clickButton"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/MainPassword"
         android:layout_alignLeft="@+id/MainPassword"
-        android:layout_alignStart="@+id/MainPassword" />
+        android:layout_alignStart="@+id/MainPassword"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -66,9 +66,7 @@
         android:layout_alignBaseline="@+id/MainEmail"
         android:layout_alignBottom="@+id/MainEmail"
         android:layout_alignLeft="@+id/MainEmail"
-        android:layout_alignStart="@+id/MainEmail"
-        android:layout_alignRight="@+id/MainEmail"
-        android:layout_alignEnd="@+id/MainEmail" />
+        android:layout_alignStart="@+id/MainEmail"/>
 
     <TextView
         android:layout_width="match_parent"
