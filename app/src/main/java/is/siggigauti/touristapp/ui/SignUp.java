@@ -36,25 +36,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         initObjects();
     }
 
-    //init views
-
     private void initViews() {
-
-        //útlit
         textuserName = (EditText) findViewById(R.id.SignUpUserName);
         textpassword = (EditText) findViewById(R.id.SignUpPassword);
         textconfirmPassword = (EditText) findViewById(R.id.SignUpPasswordConfirmPassword);
         textEmail = (EditText)findViewById(R.id.SignUpEmail);
-
-        //buttons
         createUserButton = (Button) findViewById(SignUpButton);
-
-        //errors
         textErrorName = (TextView) findViewById(R.id.ErrorName);
         textErrorEmail = (TextView) findViewById(R.id.ErrorEmail);
         textErrorPassword = (TextView) findViewById(R.id.ErrorPassword);
         textErrorConfirmPassword = (TextView) findViewById(R.id.ErrorConfirmPassword);
-
     }
 
     private void initObjects() {
@@ -66,8 +57,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private void initListeners() {
         createUserButton.setOnClickListener(this);
     }
-
-    //clicky
 
     @Override
     public void onClick(View v) {
@@ -104,12 +93,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
             dbHandler.addUser(user);
 
-            // Toast Bar to show success message that record saved successfully
             Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_LONG).show();
-            //clear text
             emptyInputEditText();
-
-            //go to login page
             Intent intentLogin = new Intent(SignUp.this, MainActivity.class);
             startActivity(intentLogin);
 
@@ -126,8 +111,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         textpassword.setText(null);
         textconfirmPassword.setText(null);
     }
-
-
 }
 
 

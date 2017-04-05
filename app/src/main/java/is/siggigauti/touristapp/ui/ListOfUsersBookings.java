@@ -20,7 +20,6 @@ import is.siggigauti.touristapp.model.DummyData;
 import is.siggigauti.touristapp.model.Trip;
 
 public class ListOfUsersBookings extends AppCompatActivity {
-    //Sækjum arrayLista af Trip objectum frá DummyData/gagnagrunn
     ArrayList<Trip> trips_booked_by_user;
     Session session;
 
@@ -33,14 +32,9 @@ public class ListOfUsersBookings extends AppCompatActivity {
         session = new Session(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
         final String userID = user.get(Session.KEY_ID);
-
         DBHandler dbHandler = new DBHandler(this);
         trips_booked_by_user = dbHandler.getBookedTripsByUserId(Integer.parseInt(userID));
-
-        // Setjum gögnin í listann.
         populateListView();
-
-        // Takki til að fara aftur heim
         Button button_userBookings_goHome = (Button) findViewById(R.id.button_userBookings_goHome);
         button_userBookings_goHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +44,6 @@ public class ListOfUsersBookings extends AppCompatActivity {
             }
         });
     }
-
 
     private void populateListView(){
         ArrayAdapter<Trip> adapter = new MyListAdapter();
@@ -71,23 +64,17 @@ public class ListOfUsersBookings extends AppCompatActivity {
                 itemRowView = getLayoutInflater().inflate(R.layout.list_row_all_trips, parent, false);
             }
 
-            // Finnum trip til að vinna með
             Trip currentTrip = trips_booked_by_user.get(position);
-            // Fillum viewið, tökum út Trip fylki þann sem viljum vinna með og setjum það í hverja röð.
             TextView tripName = (TextView) itemRowView.findViewById(R.id.row_nameOfTrip);
             tripName.setText(currentTrip.getTitle());
-            // StartDate
             TextView tripStartDate = (TextView) itemRowView.findViewById(R.id.row_startDateOfTrip);
             tripStartDate.setText(currentTrip.getStartDate().toString());
-            // EndDate
             TextView tripEndDate = (TextView) itemRowView.findViewById(R.id.row_endDateOfTrip);
             tripEndDate.setText(currentTrip.getEndDate().toString());
-            // Trip Price
             TextView tripPrice = (TextView) itemRowView.findViewById(R.id.row_priceOfTrip);
             tripPrice.setText(String.valueOf(currentTrip.getPrice()));
 
             return itemRowView;
         }
     }
-
 }

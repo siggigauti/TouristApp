@@ -30,7 +30,6 @@ public class ListOfTrips extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_trips);
 
-        // Go to filter page
         Button button_goToFilterPage = (Button) findViewById(R.id.button_tripsList_filterButton);
         button_goToFilterPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,10 +38,8 @@ public class ListOfTrips extends AppCompatActivity {
                 startActivity(in);
             }
         });
-
         DBHandler dbHandler = new DBHandler(this);
         dbHandler.populate();
-
         boolean getAll = true;
             for(int i = 0; i < idToSearchFor.length; i++){
                 if(idToSearchFor[i] == 1){
@@ -56,19 +53,8 @@ public class ListOfTrips extends AppCompatActivity {
         if(getAll){
             tripsArrayList = dbHandler.getAllTrips();
         }
-
-
-
-        ArrayList<Company> companies = dbHandler.getAllCompanies();
-        for(Company company : companies){
-            String log = "id: "+company.getID()+", Name: "+ company.getName()+", Description: " + company.getDescription();
-            Log.d("from Listoftrips:", log);
-        }
-
-        // Setjum gögnin í listann.
         populateListView();
         registerClickCallback();
-
         Button button_tripsList_homeButton = (Button) findViewById(R.id.button_tripsList_homeButton);
         button_tripsList_homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +67,7 @@ public class ListOfTrips extends AppCompatActivity {
             }
         });
     }
-    //skynja items á list.
+
     private void registerClickCallback(){
         ListView list = (ListView) findViewById(R.id.trip_list_view);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,9 +78,6 @@ public class ListOfTrips extends AppCompatActivity {
                                     int position,
                                     long     id) {
                 Trip clickedTrip = tripsArrayList.get(position);
-
-                //String msg = "you clicked on" + position;
-                //Toast.makeText(ListOfTrips.this,msg,Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(ListOfTrips.this, ViewSpecificTrip.class);
 
@@ -132,28 +115,17 @@ public class ListOfTrips extends AppCompatActivity {
                 itemRowView = getLayoutInflater().inflate(R.layout.list_row_all_trips, parent, false);
             }
 
-         // Finnum trip til að vinna með
             Trip currentTrip = tripsArrayList.get(position);
-         // Fillum viewið, tökum út Trip fylki þann sem viljum vinna með og setjum það í hverja röð.
             TextView tripName = (TextView) itemRowView.findViewById(R.id.row_nameOfTrip);
             tripName.setText(currentTrip.getTitle());
-            // StartDate: ATH Þarf að formatta þetta betur
             TextView tripStartDate = (TextView) itemRowView.findViewById(R.id.row_startDateOfTrip);
             tripStartDate.setText(currentTrip.getStartDate().toString());
-            // EndDate
             TextView tripEndDate = (TextView) itemRowView.findViewById(R.id.row_endDateOfTrip);
             tripEndDate.setText(currentTrip.getEndDate().toString());
-            // Trip Price
             TextView tripPrice = (TextView) itemRowView.findViewById(R.id.row_priceOfTrip);
             tripPrice.setText(String.valueOf(currentTrip.getPrice()));
 
             return itemRowView;
         }
     }
-
-
-
-
-
-
 }

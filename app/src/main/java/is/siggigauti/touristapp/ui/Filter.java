@@ -30,7 +30,6 @@ public class Filter extends AppCompatActivity {
     ArrayList<CatMatcher> categoriesMatcherList = new ArrayList<CatMatcher>();
     int checkedArray[] = {0, 0, 0, 0, 0};
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +41,6 @@ public class Filter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ListOfTrips.idToSearchFor = checkedArray;
-
                 Intent in = new Intent(Filter.this, ListOfTrips.class);
                 startActivity(in);
             }
@@ -55,10 +53,8 @@ public class Filter extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(checkBox_0.isChecked()){
-                    System.out.println("CheckBox 0 checked");
                     checkedArray[0] = 1;
                 }else{
-                    System.out.println("CheckBox 0 Un-Checked");
                     checkedArray[0] = 0;
                 }
             }
@@ -71,10 +67,8 @@ public class Filter extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(checkBox_1.isChecked()){
-                    System.out.println("CheckBox 1 checked");
                     checkedArray[1] = 1;
                 }else{
-                    System.out.println("CheckBox 1 Un-Checked");
                     checkedArray[1] = 0;
                 }
             }
@@ -88,10 +82,8 @@ public class Filter extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(checkBox_2.isChecked()){
-                    System.out.println("CheckBox 2 checked");
                     checkedArray[2] = 1;
                 }else{
-                    System.out.println("CheckBox 2 Un-Checked");
                     checkedArray[2] = 0;
                 }
             }
@@ -104,10 +96,8 @@ public class Filter extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(checkBox_3.isChecked()){
-                    System.out.println("CheckBox 3 checked");
                     checkedArray[3] = 1;
                 }else{
-                    System.out.println("CheckBox 3 Un-Checked");
                     checkedArray[3] = 0;
                 }
             }
@@ -120,29 +110,12 @@ public class Filter extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(checkBox_4.isChecked()){
-                    System.out.println("CheckBox 4 checked");
                     checkedArray[4] = 1;
                 }else{
-                    System.out.println("CheckBox 4 Un-Checked");
                     checkedArray[4] = 0;
                 }
             }
         });
-
-
-
-        /*
-        DBHandler dbHandler = new DBHandler(this);
-        categoriesArrayList = dbHandler.getAllCategories();
-        categoriesMatcherList = dbHandler.getAllCatMatcher();
-
-
-        for(CatMatcher category : categoriesMatcherList){
-            System.out.println("prentum trip id: " + category.getTripId());
-            System.out.println("prentum category id: " + category.getCategoryId());
-        }
-        */
-        //System.out.print(categoriesArrayList);
     }
 
 

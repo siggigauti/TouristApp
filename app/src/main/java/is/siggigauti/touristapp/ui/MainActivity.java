@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final AppCompatActivity activity = MainActivity.this;
 
     ArrayList<User> UserInfo;
-    User user;
 
     private Button LoginButton, SignUpButton;
     private EditText textUserName,
@@ -48,11 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dbHandler = new DBHandler(this);
         dbHandler.populate();
-        // User Session Manager
         session = new Session(getApplicationContext());
-
-
-
         initViews();
         initListeners();
         initObjects();
@@ -62,27 +57,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initViews() {
         textEmail = (EditText) findViewById(R.id.MainEmail);
         textPassword = (EditText) findViewById(R.id.MainPassword);
-
         textErrorEmail = (TextView) findViewById(R.id.ErrorEmail);
         textErrorPassword = (TextView) findViewById(R.id.ErrorPassword);
-
         LoginButton = (Button) findViewById(R.id.MainLogin);
         SignUpButton = (Button) findViewById(R.id.MainSignUp);
     }
 
-    //initilize listeners
     private void initListeners() {
         LoginButton.setOnClickListener(this);
         SignUpButton.setOnClickListener(this);
     }
 
-    //initilize objects
     private void initObjects(){
         dbHandler = new DBHandler(this);
         inputValidation = new InputValidation(this);
     }
 
-    //clicks
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -110,53 +100,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (dbHandler.checkUser(textEmail.getText().toString().trim() ,
                 textPassword.getText().toString().trim())) {
-
-
-
             String email = textEmail.getText().toString();
-
             UserInfo = (ArrayList<User>) dbHandler.getUserInfo(email);
-
-            //sjá hvort ég sé að sækja gögnin rétt.
-
             int UserInfoID = 0;
             String UserInfoName = "";
 
             for(User user : UserInfo){
                 UserInfoID = user.getID();
                 UserInfoName = user.getName();
-
-                /*
-                String log = "id: "+user.getID()+", Name: "+ user.getName()+", Email: " + user.getEmail();
-                Log.d("from UserInfo:", log);
-                */
             }
-            /*
-            String msg = ("ID; " + UserInfoID + " Name " + UserInfoName);
-            Log.d("UserInfo: ", msg);
-            */
-            System.out.println("USER ID SHOULD BE: "+UserInfoID);
             session.createUserLoginSession(UserInfoID, email, UserInfoName);
-
             Intent accountsIntent = new Intent(activity, HomePage.class);
-
-            //accountsIntent.putExtra("EMAIL", textEmail.getText().toString().trim());
-
-            //delete inputs
             emptyInputEditText();
-
             startActivity(accountsIntent);
-
             finish();
 
         } else {
-            //TOAST ERROR
             Toast.makeText(getApplicationContext(), "Error check email and pw", Toast.LENGTH_LONG).show();
-
         }
     }
 
-        private void emptyInputEditText() {
+    private void emptyInputEditText() {
         textPassword.setText(null);
         textEmail.setText(null);
     }

@@ -41,8 +41,6 @@ public class ViewSpecificTrip extends AppCompatActivity {
     private DBHandler dbHandler;
     Session session;
 
-
-
     private TextView title;
     private TextView description;
     private TextView price;
@@ -79,9 +77,6 @@ public class ViewSpecificTrip extends AppCompatActivity {
             }
         });
 
-
-
-
         title = (TextView) findViewById(R.id.SpecificViewTitle);
         description = (TextView) findViewById(R.id.SpecificViewDescription);
         price = (TextView) findViewById(R.id.SpecificViewPrice);
@@ -90,7 +85,6 @@ public class ViewSpecificTrip extends AppCompatActivity {
         mincap = (TextView) findViewById(R.id.SpecificViewMinCap);
         maxcap = (TextView) findViewById(R.id.SpecificViewMaxCap);
         weatherText = (TextView) findViewById(R.id.weatherTextView);
-
 
         getForecast(latitude, longitude);
     }
@@ -172,35 +166,21 @@ public class ViewSpecificTrip extends AppCompatActivity {
     }
 
     private void updateDetails(){
-        //title
         Intent intent = getIntent();
         String name = intent.getStringExtra("NameOfTrip");
         title.setText(name);
-
-        //description
         String des = intent.getStringExtra("Description");
         description.setText(des);
-
-        //price
         int pric = intent.getIntExtra("Price", 0);
         price.setText(String.valueOf("Verð: " + pric + " kr"));
-
-        //DATE
-        // Á eftir að laga hvað við skilum
         Date start = (Date) intent.getExtras().get("StartDate");
         startdate.setText(String.valueOf(start));
-
         Date eDate = (Date) intent.getExtras().get("EndDate");
         enddate.setText(String.valueOf(eDate));
-
-        //mincap
         int minca = intent.getIntExtra("MinCap", 0);
         mincap.setText(String.valueOf(minca));
-
-        //maxcap
         int maxca = intent.getIntExtra("MaxCap", 0);
         maxcap.setText(String.valueOf(maxca));
-
         weatherText.setText("Hitastig verður: "+mCurrentWeather.getTemperature()+"°F.");
     }
 
@@ -211,6 +191,4 @@ public class ViewSpecificTrip extends AppCompatActivity {
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
     }
-
-
 }
