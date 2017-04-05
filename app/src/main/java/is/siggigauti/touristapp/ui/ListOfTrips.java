@@ -39,7 +39,6 @@ public class ListOfTrips extends AppCompatActivity {
             }
         });
         DBHandler dbHandler = new DBHandler(this);
-        dbHandler.populate();
         boolean getAll = true;
             for(int i = 0; i < idToSearchFor.length; i++){
                 if(idToSearchFor[i] == 1){
