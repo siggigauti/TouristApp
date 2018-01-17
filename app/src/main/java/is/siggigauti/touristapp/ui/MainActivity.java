@@ -24,12 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<User> UserInfo;
 
     private Button LoginButton, SignUpButton;
-    private EditText textUserName,
-                     textPassword,
+    private EditText textPassword,
                      textEmail;
     private TextView textErrorEmail,
                      textErrorPassword;
-    public boolean loggedIn = false;
 
     //input checker
     private InputValidation inputValidation;

@@ -70,7 +70,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TRIP_MAX_CAP = "maxCap";
     private static final String TRIP_COMPANY = "company_id";
     private static final String TRIP_PRICE = "price";
-    private String CREATE_TRIPS_TABLE = "CREATE TABLE " + TABLE_TRIPS + "("
+    private final String CREATE_TRIPS_TABLE = "CREATE TABLE " + TABLE_TRIPS + "("
             + TRIP_ID + " INTEGER PRIMARY KEY,"
             + TRIP_TITLE + " TEXT NOT NULL,"
             + TRIP_START_DATE + " TEXT NOT NULL,"
@@ -90,7 +90,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CMPNY_ID = "id";
     private static final String CMPNY_NAME = "name";
     private static final String CMPNY_DESC = "description";
-    private String CREATE_COMPANY_TABLE = "CREATE TABLE " + TABLE_COMPANY + "("
+    private final String CREATE_COMPANY_TABLE = "CREATE TABLE " + TABLE_COMPANY + "("
             + CMPNY_ID + " INTEGER PRIMARY KEY,"
             + CMPNY_NAME + " TEXT NOT NULL,"
             + CMPNY_DESC + " TEXT"
@@ -104,7 +104,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String USER_NAME = "username";
     private static final String USER_PASSWORD = "password";
     private static final String USER_EMAIL = "email";
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+    private final String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + USER_NAME + " TEXT,"
             + USER_EMAIL + " TEXT,"
@@ -117,7 +117,7 @@ public class DBHandler extends SQLiteOpenHelper {
     *************************************************************/
     private static final String CATEGORY_ID = "id";
     private static final String CATEGORY_NAME = "category_name";
-    private String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES + "("
+    private final String CREATE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES + "("
             + CATEGORY_ID + " INTEGER PRIMARY KEY,"
             + CATEGORY_NAME + " TEXT NOT NULL"
             + ")";
@@ -129,7 +129,7 @@ public class DBHandler extends SQLiteOpenHelper {
     *************************************************************/
     private static final String CAT_TRIP_ID = "tripId";
     private static final String CAT_ID = "categoryId";
-    private String CREATE_CATEGORY_MATCHER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES_MATCHER + "("
+    private final String CREATE_CATEGORY_MATCHER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES_MATCHER + "("
             + CAT_TRIP_ID + " INTEGER,"
             + CAT_ID + " INTEGER"
             + ")";
@@ -141,7 +141,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String BOOKING_ID = "bookingId";
     private static final String BOOKING_USERID = "userId";
     private static final String BOOKING_TRIPID = "tripId";
-    private String CREATE_BOOKING_TABLE = "CREATE TABLE IF NOT EXISTS "+TABLE_BOOKINGS + "("
+    private final String CREATE_BOOKING_TABLE = "CREATE TABLE IF NOT EXISTS "+TABLE_BOOKINGS + "("
             + BOOKING_ID + " INTEGER PRIMARY KEY,"
             + BOOKING_USERID + " INTEGER,"
             + BOOKING_TRIPID + " INTEGER"

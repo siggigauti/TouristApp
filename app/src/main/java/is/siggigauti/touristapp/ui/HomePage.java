@@ -33,7 +33,7 @@ public class HomePage extends AppCompatActivity {
             initButtons();
         }
 
-    public void initButtons(){
+    private void initButtons(){
         Button button_goToListOfTrips = (Button) findViewById(R.id.button_goToListOfTrips);
         button_goToListOfTrips.setOnClickListener(new View.OnClickListener() {
             @Override
